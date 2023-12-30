@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="container" style="padding: 10px;border: 1px solid black;">
+        <label for="">Set the completion time and date......</label>
+        <input style="width:200px;" name="datetimevalue" id="datetimevalue" type="datetime-local" class="form-control">
+        <br>
+        <button class="btn btn-block btn-info" onclick="chngdateintoUTC_senttoserver()">OK</button>
+    </div>
+    
+    <script>
+        function chngdateintoUTC_senttoserver(){
+            var get_localdatetime=document.getElementById("datetimevalue").value;
+            // convert local date into UTC
+            var frntend_utc=new Date(get_localdatetime).toUTCString();
+            fetch('/utcdatetime_resolver', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({frntend_utc:frntend_utc}),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                        throw new Error('HTTP error ' + response.status);
+                        }
+                        return response.json();
+                    })
+                    .then(function(data){
+                        console.log(data.serverutcdatetime);
+                    })
+                    .catch(error => {
+                        console.error('Error sending request to server:', error);
+                    });                    
+        }
+    </script>
+
+
+</body>
+</html>
