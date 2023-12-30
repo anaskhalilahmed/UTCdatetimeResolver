@@ -25,9 +25,9 @@ app.post("/utcdatetime_resolver",function(req,res){
     /* we already got a utc date time from the frontend but used in constructor for using the date methods and
     properties*/
     var srvr_utcdatetime=new Date(req.body.frntend_utc);
-    console.log("the local date coming from front-end then converting first on the front-end by using"+ 
-    "utc.toString() method then sent  on server is "+srvr_utcdatetime+"and used inside date constructor"+
-    "so that we can use the date methods and properties on it");
+    console.log("Getting the date and time from the front-end which was firstly converted from locatime to UTC date time on front"+
+    "with the help of .utcstring() method and then sent  to server is "+srvr_utcdatetime+"and used here inside date"+ 
+    "constructor so that we can use the date methods and properties on it");
     res.status(200).json({"serverutcdatetime":""+srvr_utcdatetime+""});
     /* now outputs when console on browser with date 29-12-2023 with time 07:00PM is
     Fri Dec 29 2023 19:00:00 GMT+0500 (Pakistan Standard Time)
